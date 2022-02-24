@@ -29,22 +29,33 @@ tabs('.tabs-conteiner')
 function tooltip() {
     let elements = document.querySelectorAll('.tooltip');
 
-    [...elements].map(element => {
+    [...elements].forEach(element => {
         element.addEventListener('mouseenter', function (e) {
-            createTooltip(e)
+            createTooltip(e);
         })
+        
     })
 
-
-    function createTooltip(e) {
+    function createTooltip(e, elem) {
         console.log(e.target)
 
-        let elem = document.createElement('div');
-        elem.setAttribute('class', 'tooltip-element');
-        elem.textContent = e.target.title
-
+        elem = document.createElement('div');
+        elem.setAttribute('class', 'tooltip-element');       
+        elem.textContent = e.target.title;
         document.body.append(elem);
+
+        elem.style.top = e.pageY + "px";
+        elem.style.left = e.pageX + "px";
+        elem.style.display = "block";
+        e.target.addEventListener('mouseleave', function() {
+            elem.style.display = "none";
+        }
+        )
+        
+
     }
+    
 }
+
 
 tooltip()
