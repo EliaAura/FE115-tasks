@@ -34,10 +34,15 @@ class Contacts{
 
     remove(id){
         this.contacts = this.contacts.filter(user => user.data.id !== id ? user : null);
+        return true;
     }
 
     getContacts(){
         return this.contacts;
+    }
+
+    getUser() {
+        return this.user;
     }
 
 }
@@ -48,20 +53,18 @@ class ContactsApp extends Contacts{
         this.init();
     }
 
-    async getData(){
-        let data;
-        await fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response => response.json())
-            .then(json => data = json);
-        this.contacts = data;
+    initFake(rez) {
+        return rez.map(d => {
+            let {id: id, name: name, phone: phone, email: email, address:{city, street}} = d;
+            let address = `${city} ${street}`;
+
+            this.add({id, name, phone, email, address});
+        });
     }
 
+    
     async init(){
-        let dataStorage = this.storage;
-
-        if (dataStorage){
-            dataStorage.forEach(elem => this.add(elem.data))
-        }
+        
         let formUser = document.createElement('form');
         formUser.setAttribute('class', 'user_form');
 
@@ -112,7 +115,8 @@ class ContactsApp extends Contacts{
 
         formUser.addEventListener('submit', (e) => {
             this.addUser(e)
-        })
+        });
+        
 
         let cookie = this.getCookie('contactsExp')
 
@@ -120,9 +124,17 @@ class ContactsApp extends Contacts{
             this.storage = [];
         }
 
+        let dataStorage = this.storage;
+
+        if(!dataStorage) {
+            await this.getData();
+        };
+
+        if (dataStorage){
+            dataStorage.forEach(elem => this.add(elem.data))
+        }
         this.createUser();
-        await this.getData()
-        console.log(this.contacts)
+        console.log(this.contacts);
     }
 
     addUser(e){
@@ -193,7 +205,8 @@ class ContactsApp extends Contacts{
         })
 
         this.storage = this.contacts;
-        this.setCookie('contactsExp', 1, {'max-age': 10})
+
+        this.setCookie('contactsExp', 1, {'max-age': 864000})
     }
 
     get storage(){
@@ -218,6 +231,17 @@ class ContactsApp extends Contacts{
         this.createUser();
     }
 
+    async getData(){
+        let rez = [];
+        await fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => response.json())
+            .then(json => json.map(data => rez.push(data)));
+            rez = this.initFake(rez);
+            return rez;     
+    }
+
+
+    
     saveUser(e, id, name, email, address, phone) {
         if (e.key === 'Enter' && e.ctrlKey) {
             name.setAttribute('contenteditable', 'false');
@@ -264,5 +288,3 @@ class ContactsApp extends Contacts{
     }
     
 }
-
-//==========================//
