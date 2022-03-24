@@ -1,53 +1,6 @@
+import Contacts from "./contacts.js";
 
-class User{
-    constructor(data) {
-        if(data.name.length > 0 && data.address.length > 0 && data.email.length > 0 && data.phone.length > 0) this.data = data;
-    }
-
-    edit(data) {
-        Object.assign(this.data, data)
-    }
-}
-
-class Contacts{
-    constructor() {
-        this.userId = 1;
-        this.contacts = [];
-    }
-
-    add(data){
-        if(data.name.length > 0 && data.address.length > 0 && data.email.length > 0 && data.phone.length > 0) {
-            this.userId++
-
-            let user = new User(data);
-            user.data.id = this.userId
-            this.contacts.push(user);
-        }
-    }
-
-    edit(id, data){
-        let userFind = this.contacts.find(user => {
-            return user.data.id === id ? user: null;
-        })
-        userFind.edit(data);
-    }
-
-    remove(id){
-        this.contacts = this.contacts.filter(user => user.data.id !== id ? user : null);
-        return true;
-    }
-
-    getContacts(){
-        return this.contacts;
-    }
-
-    getUser() {
-        return this.user;
-    }
-
-}
-
-class ContactsApp extends Contacts{
+export default class ContactsApp extends Contacts{
     constructor() {
         super();
         this.init();
