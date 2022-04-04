@@ -2,7 +2,7 @@ import User from "./user.js";
 
 export default class Contacts {
     constructor() {
-        this.userId = 1;
+        this.userId = 0;
         this.contacts = [];
     }
 

@@ -11,7 +11,7 @@ class User{
 
 class Contacts{
     constructor() {
-        this.userId = 1;
+        this.userId = 0;
         this.contacts = [];
     }
 
@@ -105,7 +105,7 @@ class ContactsApp extends Contacts{
 
         formUser.append(contactTitle, userName, userMail, userAddress, userPhone, formButton);
 
-        let contactsList = document.createElement('ul');
+        let contactsList = document.createElement('ol');
         contactsList.setAttribute('class', 'contact_list');
         this.contactsList = contactsList;
 
