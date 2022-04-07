@@ -13,14 +13,12 @@ function Main(){
             let id = hash.slice(index + 1);
             let item = await product.render(id);
             document.title = product.title;
-            // console.log(item);
             elem.append(item);
         }
         import(`./${hash}.js`)
             .then(module => {
                 elem.innerHTML = '';
-                console.log(module);
-                elem.append(module.default);
+                elem.append(module.default.init());
                 document.title = module.title;
             });
     }

@@ -19,5 +19,5 @@ let elem = new About();
 let init = elem.init();
 let title = elem.title;
 
-export default init;
+export default elem;
 export {title};

@@ -34,8 +34,9 @@ function Catalog(){
         title.innerText = data.title;
         let priceCart = document.createElement('p');
         priceCart.classList.add('cart-price');
-        priceCart.innerText = data.price;
+        priceCart.innerText = data.price + '$';
         let btnAdd = document.createElement('button');
+        
         if (localCart.some(data => data.id === +id)){
             btnAdd.innerText = 'Added';
             btnAdd.disabled = true;
@@ -43,8 +44,7 @@ function Catalog(){
             btnAdd.innerText = 'Add';
         }
         elem.append(title, category, img, desc, priceCart, btnAdd);
-        // console.log(data);
-        // Добавить кнопку "В корзину"
+       
 
         btnAdd.addEventListener('click', () =>{
             if (addCart(data)){
